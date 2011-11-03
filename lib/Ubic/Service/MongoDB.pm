@@ -7,20 +7,20 @@ use warnings;
 
 =head1 SYNOPSIS
 
-# in your ubic service (/etc/ubic/service/mymongo, for example)
-use Ubic::Service::MongoDB;
-return Ubic::Service::MongoDB->new({
-    config => {
-        dbpath    => '/var/lib/mongodb',
-        logpath   => "/var/log/mongodb/mongodb.log",
-        logappend => "true",
-    },
-    daemon => 'mongod',
-    user   => 'mongodb',
-    ubic_log => '/var/log/mongodb/ubic.log',
-    stdout   => '/var/log/mongodb/stdout.log',
-    stderr   => '/var/log/mongodb/stderr.log',
-});
+  # in your ubic service (/etc/ubic/service/mymongo, for example)
+  use Ubic::Service::MongoDB;
+  return Ubic::Service::MongoDB->new({
+      config => {
+          dbpath    => '/var/lib/mongodb',
+          logpath   => "/var/log/mongodb/mongodb.log",
+          logappend => "true",
+      },
+      daemon => 'mongod',
+      user   => 'mongodb',
+      ubic_log => '/var/log/mongodb/ubic.log',
+      stdout   => '/var/log/mongodb/stdout.log',
+      stderr   => '/var/log/mongodb/stderr.log',
+  });
 
 =head1 DESCRIPTION
 
