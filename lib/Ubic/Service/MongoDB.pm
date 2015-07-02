@@ -36,7 +36,7 @@ use parent qw(Ubic::Service::Common);
 
 use File::Copy qw(move);
 use File::Spec::Functions qw(catfile);
-use MongoDB;
+use MongoDB 0.502; # MonboDB::MongoClient instead of MongoDB::Connection
 use Params::Validate qw(:all);
 use Ubic::Daemon qw(:all);
 use Ubic::Result qw(:all);
@@ -127,7 +127,6 @@ sub new {
         $params->{gen_cfg} = "/tmp/$self->{daemon}." . $self->{port} . '.conf';
     }
 
-
     return bless $params => $class;
 }
 
@@ -206,12 +205,13 @@ sub status_impl {
 
     my $status;
     eval {
-        my $conn = MongoDB::Connection->new(
+        my $client = MongoDB::MongoClient->new(
             host => "mongodb://localhost:$self->{port}",
-            timeout => 2,
-            query_timeout => 2,
+            timeout => 2000,
+            query_timeout => 2000,
         );
-        my $db = $conn->admin;
+        $client->connect;
+        my $db = $client->get_database('admin');
         $status = $db->run_command({ serverStatus => 1 });
     };
 
@@ -228,7 +228,7 @@ sub status_impl {
 
 =head1 SEE ALSO
 
-L<http://www.mongodb.org/display/DOCS/File+Based+Configuration>
+L<http://docs.mongodb.org/manual/reference/configuration-options/>
 
 L<Ubic>
 
